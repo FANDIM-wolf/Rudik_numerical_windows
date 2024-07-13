@@ -58,6 +58,6 @@ class Linear_Equation_Window(QtWidgets.QWidget):
 
 if __name__ == "__main__":
     app = QApplication([])
-    window = MainWindow()
+    window = Linear_Equation_Window()
     window.show()
     app.exec()
