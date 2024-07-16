@@ -11,13 +11,13 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class  Ui_Differential(object):
+class Ui_Differential(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(1400, 646)
         Dialog.setMinimumSize(QtCore.QSize(1400, 646))
         self.pushButton = QtWidgets.QPushButton(Dialog)
-        self.pushButton.setGeometry(QtCore.QRect(20, 430, 161, 41))
+        self.pushButton.setGeometry(QtCore.QRect(20, 430, 201, 51))
         font = QtGui.QFont()
         font.setBold(True)
         font.setWeight(75)
@@ -87,6 +87,16 @@ class  Ui_Differential(object):
         font.setWeight(75)
         self.label_5.setFont(font)
         self.label_5.setObjectName("label_5")
+        self.pushButton_2 = QtWidgets.QPushButton(Dialog)
+        self.pushButton_2.setGeometry(QtCore.QRect(20, 540, 201, 51))
+        font = QtGui.QFont()
+        font.setBold(True)
+        font.setWeight(75)
+        self.pushButton_2.setFont(font)
+        self.pushButton_2.setStyleSheet("color:white;\n"
+"background-color:red; \n"
+"border-radius:8px;")
+        self.pushButton_2.setObjectName("pushButton_2")
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -100,13 +110,14 @@ class  Ui_Differential(object):
         self.label_3.setText(_translate("Dialog", "The initial value of y"))
         self.label_4.setText(_translate("Dialog", " The end value of x"))
         self.label_5.setText(_translate("Dialog", "Number of steps"))
+        self.pushButton_2.setText(_translate("Dialog", "Clear"))
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     Dialog = QtWidgets.QDialog()
-    ui =  Ui_Differential()
+    ui = Ui_Differential()
     ui.setupUi(Dialog)
     Dialog.show()
     sys.exit(app.exec_())

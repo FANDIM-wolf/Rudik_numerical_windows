@@ -12,7 +12,7 @@ from PyQt5 import QtGui
 from PyQt5.QtCore import  Qt
 from differentional import Ui_Differential
 import numpy as np
-
+from scipy.integrate import quad, cumtrapz
 import sympy as sp,sympy
 # Display the plot in the widget
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -25,6 +25,8 @@ class UI_Integral_Window(QtWidgets.QWidget):
         
         self.ui.setupUi(self)
         self.ui.pushButton.clicked.connect(self.calculate_integral)
+        self.ui.pushButton_2.clicked.connect(self.clear_plot)
+        self.Canvas_is_Removed = False 
     def calculate_integral(self):
         
     
@@ -41,9 +43,9 @@ class UI_Integral_Window(QtWidgets.QWidget):
 
                 result = integrals.integral_rectangle(f_str, a, b, n)
                 print(f"Approximate value of the integral 1: {result:.6f}")
-                self.print_plot( lower_limit,upper_limit ,f_str ,function)
+                self.print_plot( lower_limit,upper_limit ,f_str ,function ,n)
                 self.ui.label_5.setText(str(result)) # print result
-                
+            
             elif self.ui.radioButton_2.isChecked():
                 f_str = support_tools.create_function_from_expr(function)
                 a = lower_limit
@@ -51,7 +53,7 @@ class UI_Integral_Window(QtWidgets.QWidget):
                 n = the_number_of_partions
 
                 result = integrals.integral_trapezoids(f_str, a, b, n)
-                
+                self.print_plot( lower_limit,upper_limit ,f_str,function , n)
                 print(f"Approximate value of the integral 1: {result:.6f}")
                 self.ui.label_5.setText(str(result)) # print result
             elif self.ui.radioButton_3.isChecked():
@@ -63,23 +65,25 @@ class UI_Integral_Window(QtWidgets.QWidget):
                 result = integrals.integral_simpson(f_str, a, b, n)
                 self.ui.label_5.setText(str(result)) # print result
                 print(f"Approximate value of the integral 1: {result:.6f}")
-                self.print_plot( lower_limit,upper_limit ,f_str,function)
+                self.print_plot( lower_limit,upper_limit ,f_str,function , n)
             else:
                 QtWidgets.QMessageBox.warning(self, "Error", "Please select a method.")
         except ValueError as e:
             QtWidgets.QMessageBox.warning(self, "Error", str(e))
 
-    def print_plot(self , lower_limit,upper_limit ,f_str ,function):
+    def print_plot(self, lower_limit, upper_limit, f_str, function, iteration):
         # Calculate the antiderivative
-        x = sp.Symbol('x')
-        f = sp.sympify(function)
-        F = sp.integrate(f, x)
-        print(f"The antiderivative is: {F}")
-
-        # Plot the function and its antiderivative
-        x_vals = np.linspace(lower_limit, upper_limit, 100)
+        #x = sp.Symbol('x')
+        #f = sp.sympify(function)
+        #F = sp.integrate(f, x)
+        #print(f"The antiderivative is: {F}")
+        x_vals = np.linspace(lower_limit, upper_limit, iteration)
         y_vals = [f_str(x) for x in x_vals]
-        F_vals = [F.subs(x, x_val) for x_val in x_vals]
+        F_vals = cumtrapz(y_vals, x_vals, initial=0)
+        # Plot the function and its antiderivative
+        #x_vals = np.linspace(lower_limit, upper_limit, iteration)
+        #y_vals = [f_str(x) for x in x_vals]
+        #F_vals = [float(F.subs(x, x_val)) for x_val in x_vals]
 
         # Create a figure and a canvas
         fig, ax = plt.subplots()
@@ -90,11 +94,29 @@ class UI_Integral_Window(QtWidgets.QWidget):
         ax.set_title('Function and its Antiderivative')
         ax.legend()
 
-        # Create a layout and add the canvas to it
-        layout = QVBoxLayout()
-        self.ui.widget.setLayout(layout)
+        # Get the layout of the widget
+        layout = self.ui.widget.layout()
+        if layout is None:
+            layout = QVBoxLayout()
+            self.ui.widget.setLayout(layout)
+
+        # Add the canvas to the layout
         canvas = FigureCanvas(fig)
         layout.addWidget(canvas)
+    def clear_plot(self):
+        """
+        Clears the plot canvas.
+        """
+        
+        # Get the layout of the widget
+        layout = self.ui.widget.layout()
+
+        # Remove the canvas from the layout
+        if layout:
+            canvas = layout.takeAt(0).widget()
+            canvas.deleteLater()
+
+                
 class Differential_Window(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
@@ -104,7 +126,7 @@ class Differential_Window(QtWidgets.QWidget):
         self.ui.setupUi(self)
 
         self.ui.pushButton.clicked.connect(self.calculate_solution)
-        
+        self.ui.pushButton_2.clicked.connect(self.clear_plot)
     def calculate_solution(self):
         """
         Calculates the solution of the differential equation and displays the results.
@@ -129,11 +151,16 @@ class Differential_Window(QtWidgets.QWidget):
         self.ui.tableView.setModel(model)
 
        
-
+        figure = plt.figure(figsize=(12, 6))
+        
         # Create a layout and add the canvas to it
-        layout = QVBoxLayout()
-        self.ui.widget.setLayout(layout)
+        # Get the layout of the widget
+        layout = self.ui.widget.layout()
+        if layout is None:
+            layout = QVBoxLayout()
+            self.ui.widget.setLayout(layout)
 
+        # Add the canvas to the layout
         figure = plt.figure(figsize=(12, 6))
         canvas = FigureCanvas(figure)
         layout.addWidget(canvas)
@@ -143,6 +170,20 @@ class Differential_Window(QtWidgets.QWidget):
         plt.ylabel("y")
         plt.title("Solution of the Differential Equation")
         canvas.draw()
+    def clear_plot(self):
+        """
+        Clears the plot canvas.
+        """
+        
+        # Get the layout of the widget
+        layout = self.ui.widget.layout()
+
+        # Remove the canvas from the layout
+        if layout:
+            canvas = layout.takeAt(0).widget()
+            canvas.deleteLater()
+
+      
 
 
 class SLAE_Window(QtWidgets.QWidget):
