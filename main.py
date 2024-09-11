@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QApplication, QWidget, QGridLayout, QTextEdit , QMainWindow 
 from pyqt_custom_titlebar_setter import CustomTitlebarSetter
-from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout , QPushButton , QSizeGrip  ,  QTableWidgetItem 
+from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout , QPushButton , QSizeGrip  ,  QTableWidgetItem ,  QSplashScreen
 from Main_window import Ui_MainWindow
 from PyQt5 import  QtWidgets
 from Linear_equation  import  Ui_Linear_equation_Window
@@ -14,6 +14,10 @@ from differentional import Ui_Differential
 import numpy as np
 from scipy.integrate import quad, cumtrapz
 import sympy as sp,sympy
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import Qt
+import sys
+import time
 # Display the plot in the widget
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib.pyplot as plt
@@ -42,7 +46,7 @@ class UI_Integral_Window(QtWidgets.QWidget):
                 n = the_number_of_partions
 
                 result = integrals.integral_rectangle(f_str, a, b, n)
-                print(f"Approximate value of the integral 1: {result:.6f}")
+               
                 self.print_plot( lower_limit,upper_limit ,f_str ,function ,n)
                 self.ui.label_5.setText(str(result)) # print result
             
@@ -54,7 +58,7 @@ class UI_Integral_Window(QtWidgets.QWidget):
 
                 result = integrals.integral_trapezoids(f_str, a, b, n)
                 self.print_plot( lower_limit,upper_limit ,f_str,function , n)
-                print(f"Approximate value of the integral 1: {result:.6f}")
+           
                 self.ui.label_5.setText(str(result)) # print result
             elif self.ui.radioButton_3.isChecked():
                 f_str = support_tools.create_function_from_expr(function)
@@ -64,7 +68,7 @@ class UI_Integral_Window(QtWidgets.QWidget):
 
                 result = integrals.integral_simpson(f_str, a, b, n)
                 self.ui.label_5.setText(str(result)) # print result
-                print(f"Approximate value of the integral 1: {result:.6f}")
+              
                 self.print_plot( lower_limit,upper_limit ,f_str,function , n)
             else:
                 QtWidgets.QMessageBox.warning(self, "Error", "Please select a method.")
@@ -87,11 +91,11 @@ class UI_Integral_Window(QtWidgets.QWidget):
 
         # Create a figure and a canvas
         fig, ax = plt.subplots()
-        ax.plot(x_vals, y_vals, label='Function')
-        ax.plot(x_vals, F_vals, label='Antiderivative')
+        ax.plot(x_vals, y_vals, label='Функция')
+        ax.plot(x_vals, F_vals, label='')
         ax.set_xlabel('x')
         ax.set_ylabel('y')
-        ax.set_title('Function and its Antiderivative')
+        ax.set_title('Производная и её Первообразная')
         ax.legend()
 
         # Get the layout of the widget
@@ -168,7 +172,7 @@ class Differential_Window(QtWidgets.QWidget):
         plt.plot(x_values, y_values)
         plt.xlabel("t")
         plt.ylabel("y")
-        plt.title("Solution of the Differential Equation")
+        plt.title("Решение дифференциального уравнения ")
         canvas.draw()
     def clear_plot(self):
         """
@@ -263,9 +267,9 @@ class SLAE_Window(QtWidgets.QWidget):
                 x = zeidel.gauss_seidel(A, b, x0, error, max_iterations)
                 self.display_solution(x)
             else:
-                QtWidgets.QMessageBox.warning(self, "Error", "Please select a method.")
+                QtWidgets.QMessageBox.warning(self, "Ошибка", "Пожалуйста выберете метод.")
         except ValueError as e:
-            QtWidgets.QMessageBox.warning(self, "Error", str(e))
+            QtWidgets.QMessageBox.warning(self, "Ошибка", str(e))
     def display_solution(self, x):
         model = QtGui.QStandardItemModel(len(x), 1)
         for i, value in enumerate(x):
@@ -344,26 +348,38 @@ class MainWindow(QMainWindow,Ui_MainWindow):
         self.pushButton_4.clicked.connect(self.open_differential_equations)
     def open_linear_equations_window(self):
         self.linear_window = Linear_Equation_Window()
-        self.linear_window= CustomTitlebarSetter.getCustomTitleBarWindow(main_window=self.linear_window, title='Linear equation',icon_filename='dark-notepad.svg')
+        self.linear_window= CustomTitlebarSetter.getCustomTitleBarWindow(main_window=self.linear_window, title='Линейное уравнение',icon_filename='dark-notepad.svg')
         self.linear_window.show()
     def open_SLAE(self):
         self.SLAE_Window = SLAE_Window()
-        self.SLAE_Window= CustomTitlebarSetter.getCustomTitleBarWindow(main_window=self.SLAE_Window , title='SLAE Window',icon_filename='dark-notepad.svg')
+        self.SLAE_Window= CustomTitlebarSetter.getCustomTitleBarWindow(main_window=self.SLAE_Window , title='СЛАУ',icon_filename='dark-notepad.svg')
         self.SLAE_Window.show()
     def open_differential_equations(self):
         self.differential_equation_window =  Differential_Window()
-        self.differential_equation_window = CustomTitlebarSetter.getCustomTitleBarWindow(main_window=self.differential_equation_window , title='Differential equation',icon_filename='dark-notepad.svg')
+        self.differential_equation_window = CustomTitlebarSetter.getCustomTitleBarWindow(main_window=self.differential_equation_window , title='ЛДУ первого порядка',icon_filename='dark-notepad.svg')
         self.differential_equation_window.show()
     def open_Integral_Window(self):
         self.integral_window = UI_Integral_Window()
-        self.integral_window = CustomTitlebarSetter.getCustomTitleBarWindow(main_window=self.integral_window , title='Integral Window',icon_filename='dark-notepad.svg')
+        self.integral_window = CustomTitlebarSetter.getCustomTitleBarWindow(main_window=self.integral_window , title='Интеграл',icon_filename='dark-notepad.svg')
         self.integral_window.show()
 
 if __name__ == "__main__":
     import sys
 
     app = QApplication(sys.argv)
+    # Load the splash image
+    splash_pix = QPixmap('splash.png')  # Replace with your image path
+    splash = QSplashScreen(splash_pix, Qt.WindowStaysOnTopHint)
+    splash.setMask(splash_pix.mask())  # Set the mask for transparency
+    splash.show()
+
+    # Simulate a time-consuming task
+    time.sleep(2)  # Simulate loading time
     main_window_widget = MainWindow()
-    widget = CustomTitlebarSetter.getCustomTitleBarWindow(main_window=main_window_widget,title='Rudik Numericals Windows', icon_filename='dark-notepad.svg')
+    widget = CustomTitlebarSetter.getCustomTitleBarWindow(main_window=main_window_widget,title='Numerical RDA', icon_filename='dark-notepad.svg')
     widget.show()
+    
+    # Finish the splash screen
+    splash.finish(widget)
+
     sys.exit(app.exec_())

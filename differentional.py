@@ -104,13 +104,13 @@ class Ui_Differential(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.pushButton.setText(_translate("Dialog", "Calculate"))
-        self.label.setText(_translate("Dialog", "Equation:"))
-        self.label_2.setText(_translate("Dialog", "The initial value of x"))
-        self.label_3.setText(_translate("Dialog", "The initial value of y"))
-        self.label_4.setText(_translate("Dialog", " The end value of x"))
-        self.label_5.setText(_translate("Dialog", "Number of steps"))
-        self.pushButton_2.setText(_translate("Dialog", "Clear"))
+        self.pushButton.setText(_translate("Dialog", "Вычислить"))
+        self.label.setText(_translate("Dialog", "Уравнение:"))
+        self.label_2.setText(_translate("Dialog", "начальное значение t"))
+        self.label_3.setText(_translate("Dialog", "начальное значение y"))
+        self.label_4.setText(_translate("Dialog", "конечное значение t"))
+        self.label_5.setText(_translate("Dialog", "число шагов"))
+        self.pushButton_2.setText(_translate("Dialog", "Удалить"))
 
 
 if __name__ == "__main__":

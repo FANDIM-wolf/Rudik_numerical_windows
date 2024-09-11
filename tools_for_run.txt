@@ -1,0 +1,5 @@
+# Set the minimum size to 640x480 pixels
+self.setMinimumSize(640, 480)
+        
+# Set the maximum size to 1024x768 pixels
+self.setMaximumSize(1024, 768)

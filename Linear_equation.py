@@ -61,8 +61,8 @@ class Ui_Linear_equation_Window(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.pushButton.setText(_translate("MainWindow", "Calculate"))
-        self.pushButton_2.setText(_translate("MainWindow", "Clear"))
+        self.pushButton.setText(_translate("MainWindow", "Вычислить"))
+        self.pushButton_2.setText(_translate("MainWindow", "Удалить"))
 
 
 if __name__ == "__main__":

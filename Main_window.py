@@ -77,10 +77,10 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.pushButton.setText(_translate("MainWindow", "Linear equations"))
-        self.pushButton_2.setText(_translate("MainWindow", "System of linear equations"))
-        self.pushButton_3.setText(_translate("MainWindow", "Integrals"))
-        self.pushButton_4.setText(_translate("MainWindow", "Differential equation"))
+        self.pushButton.setText(_translate("MainWindow", "Линейное уравнение "))
+        self.pushButton_2.setText(_translate("MainWindow", "СЛАУ"))
+        self.pushButton_3.setText(_translate("MainWindow", "Интеграл"))
+        self.pushButton_4.setText(_translate("MainWindow", "ЛДУ первого порядка"))
 
 
 if __name__ == "__main__":

@@ -120,23 +120,23 @@ class Ui_Integrals(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.label_3.setText(_translate("Dialog", "The upper limit of integration"))
-        self.label_2.setText(_translate("Dialog", "The lower limit of integration"))
-        self.label.setText(_translate("Dialog", "Function:"))
-        self.label_4.setText(_translate("Dialog", "The number of partitions of the integration segment (must be even)"))
-        self.radioButton.setText(_translate("Dialog", " the method of rectangles"))
-        self.radioButton_2.setText(_translate("Dialog", "the trapezoid method"))
-        self.radioButton_3.setText(_translate("Dialog", "Simpson\'s method"))
-        self.pushButton.setText(_translate("Dialog", "Calculate"))
+        self.label_3.setText(_translate("Dialog", "Верхний предел"))
+        self.label_2.setText(_translate("Dialog", "Нижний предел "))
+        self.label.setText(_translate("Dialog", "Подинтегральная функция:"))
+        self.label_4.setText(_translate("Dialog", "Количество сегментов интегрирования (четное число)"))
+        self.radioButton.setText(_translate("Dialog", "метод прямоугольников "))
+        self.radioButton_2.setText(_translate("Dialog", "метод трапеций"))
+        self.radioButton_3.setText(_translate("Dialog", "метод симпсона"))
+        self.pushButton.setText(_translate("Dialog", "Вычислить"))
         self.label_5.setText(_translate("Dialog", "TextLabel"))
-        self.pushButton_2.setText(_translate("Dialog", "Clear"))
+        self.pushButton_2.setText(_translate("Dialog", "Убрать"))
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     Dialog = QtWidgets.QDialog()
-    ui = Ui_Integrals()
+    ui =  Ui_Integrals()
     ui.setupUi(Dialog)
     Dialog.show()
     sys.exit(app.exec_())
