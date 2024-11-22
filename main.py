@@ -12,7 +12,8 @@ from PyQt5 import QtGui
 from PyQt5.QtCore import  Qt
 from differentional import Ui_Differential
 import numpy as np
-from scipy.integrate import quad, cumtrapz
+
+from scipy.integrate import quad
 import sympy as sp,sympy
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt
@@ -21,6 +22,10 @@ import time
 # Display the plot in the widget
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib.pyplot as plt
+#triangle intigreate
+def manual_cumtrapz(y, x):
+    return np.array([0] + [np.trapz(y[:i+1], x[:i+1]) for i in range(1, len(y))])
+
 class UI_Integral_Window(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
@@ -83,7 +88,8 @@ class UI_Integral_Window(QtWidgets.QWidget):
         #print(f"The antiderivative is: {F}")
         x_vals = np.linspace(lower_limit, upper_limit, iteration)
         y_vals = [f_str(x) for x in x_vals]
-        F_vals = cumtrapz(y_vals, x_vals, initial=0)
+       # Usage in your print_plot method
+        F_vals = manual_cumtrapz(y_vals, x_vals)
         # Plot the function and its antiderivative
         #x_vals = np.linspace(lower_limit, upper_limit, iteration)
         #y_vals = [f_str(x) for x in x_vals]
